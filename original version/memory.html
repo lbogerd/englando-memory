@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>The Memory Game</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    #app{
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    h1{
+      display: inline-block;
+      vertical-align: middle;
+      line-height: normal;
+    }
+
+    .flip-card {
+      background-color: transparent;
+      width: 225px;
+      height: 300px;
+      perspective: 1000px;
+      padding: 5px;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      line-height: 300px;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    }
+
+    .flip-card-go .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+    }
+
+    .flip-card-front {
+      background-color: #e7c7a7;
+      color: black;
+    }
+
+    .flip-card-back {
+      background-color: #2980b9;
+      color: white;
+      transform: rotateY(180deg);
+    }
+  </style>
+  <script>
+    function generateRandomId() {
+      return Math.random().toString(36).substr(2, 5);
+    }
+    function generateRandomInsertPosition(maxPosition) {
+      return Math.floor(Math.random() * Math.floor(maxPosition));
+    }
+  </script>
+</head>
+<body>
+  <div id="app">
+    <play-card
+      v-for="card in game.cards"
+      :key="card.id"
+      :card="card"
+      @click.native="clickCard(card)"
+    ></play-card>
+  </div>
+  
+  <script src="vue.js"></script>
+  <script>
+    Vue.component('')
+
+    Vue.component('play-card', {
+      props: ['card'],
+      template: `
+        <div class="flip-card" :id="card.id" @click="flip">
+          <div class="flip-card-inner">
+            <div class="flip-card-front"></div>
+            <div class="flip-card-back"></div>
+          </div>
+        </div>`,
+      // data: function () {
+      //   return {
+      //     text: this.card.text,
+      //     isTextVisible: false
+      //   }
+      // },
+      methods: {
+        showText: function () {
+          this
+            .classList
+            .add('flip-card-go');
+          
+          this
+            .querySelector('.flip-card-back') 
+            .innerHTML = '';
+        },
+        hideCard: function (cardElement) {
+          cardElement
+            .classList
+            .remove('flip-card-go');
+          
+          cardElement
+            .querySelector('.flip-card-back')
+            .innerHTML = 'uho';
+        },
+        flip: function (event) {
+          let shownCards = app
+            .$data
+            .game
+            .cards
+            .filter(c => c.isShown === true);
+          
+          if (shownCards.length === 2) {
+            shownCards.forEach(c => {
+              
+            });
+          }
+
+          let cardBackText = event
+            .currentTarget
+            .querySelector('.flip-card-back')
+            .innerHTML;
+
+          let expectedHtml = '<h1>' + this.text + '</h1>';
+
+          if (cardBackText === expectedHtml) {
+            event
+              .currentTarget
+              .querySelector('.flip-card-back') 
+              .innerHTML = '';
+            
+            this.hideCard(event.currentTarget);
+
+            app
+              .$data
+              .game
+              .cards
+              .filter(c => c.id === this.$el.id)[0]
+              .isShown = false;
+          } else {
+            event
+              .currentTarget
+              .querySelector('.flip-card-back')
+              .innerHTML = expectedHtml;
+
+            this.showCard(event.currentTarget);
+
+            app
+              .$data
+              .game
+              .cards
+              .filter(c => c.id === this.$el.id)[0]
+              .isShown = true;
+          }
+        }
+      }
+    })
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        players: [
+          {
+            id: 1,
+            name: 'Speler 1'
+          },
+          {
+            id: 2,
+            name: 'Speler 2'
+          }
+        ],
+        game: {
+          cards: [],
+          currentFlippedCardId: '',
+          currentPlayerId: 0,
+        },
+        pairs: [
+          {
+            pairId: generateRandomId(),
+            nl: 'aap',
+            en: 'monkey',
+            solvedBy: 0
+          },
+          {
+            pairId: generateRandomId(),
+            nl: 'koe',
+            en: 'cow',
+            solvedBy: 0
+          },
+          {
+            pairId: generateRandomId(),
+            nl: 'kat',
+            en: 'cat',
+            solvedBy: 0
+          },
+          {
+            pairId: generateRandomId(),
+            nl: 'hond',
+            en: 'dog',
+            solvedBy: 0
+          },
+          {
+            pairId: generateRandomId(),
+            nl: 'muis',
+            en: 'mouse',
+            solvedBy: 0
+          }
+        ]
+      },
+      methods: {
+
+      },
+      mounted: function() {
+        // Generate cards based on pairs
+        this.$nextTick(function () {
+          this.$data.pairs.forEach(pair => {
+            // Add English version of the card
+            this.$data.game.cards.splice(
+              generateRandomInsertPosition(this.$data.game.cards.length), 
+              0, 
+              {
+                id: generateRandomId(),
+                pairId: pair.pairId,
+                text: pair.en,
+                isTextVisible: false
+              }
+            );
+            // Add Dutch version of the card
+            this.$data.game.cards.splice(
+              generateRandomInsertPosition(this.$data.game.cards.length), 
+              0, 
+              {
+                id: generateRandomId(),
+                pairId: pair.pairId,
+                text: pair.nl,
+                isTextVisible: false
+              }
+            );
+          });
+        })
+      }
+    })
+  </script>
+</body>
+</html>
