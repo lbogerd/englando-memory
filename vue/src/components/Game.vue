@@ -11,6 +11,7 @@
   </div>
 </template>
 <script>
+import gameState from '../store'
 import PlayCard from './PlayCard.vue'
 
 export default {
