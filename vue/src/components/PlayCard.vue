@@ -2,7 +2,6 @@
   <div 
     class="flip-card"
     :id="card.id"
-    @click="clickCard"
   >
     <div class="flip-card-inner">
       <div class="flip-card-front"></div>
@@ -19,9 +18,6 @@ export default {
       required: true
     }
   },
-  methods: {
-    clickCard: function () {
-    }
-  }
+  
 }
 </script>
