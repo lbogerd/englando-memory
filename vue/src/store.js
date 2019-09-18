@@ -65,6 +65,13 @@ export const mutations = {
     // Shuffle them.
     this.shuffleCards();
   },
+  allCardsToFaceDown() {
+    gameState
+      .cards
+      .forEach(c => {
+        c.isFaceUp = false;
+      })
+  },
   shuffleCards() {
     let array = gameState.cards;
     // Durstenfeld shuffle algorithm.

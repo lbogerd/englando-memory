@@ -11,7 +11,7 @@
   </div>
 </template>
 <script>
-import { gameState } from '../store'
+import { gameState, mutations } from '../store'
 import PlayCard from './PlayCard.vue'
 
 export default {
@@ -22,16 +22,21 @@ export default {
   computed: {
     cards() {
       return gameState.cards;
+    },
+    cardsCurrentlyFaceUp() {
+      return gameState
+        .cards
+        .filter(c => c.isFaceUp);
     }
   },
   methods: {
     clickCard(card) {
-      if(card.isFaceUp){
-        console.log('face up!');
+      if(this.cardsCurrentlyFaceUp.length >= 2){
+        mutations.allCardsToFaceDown();
         return;
       }
+
       card.isFaceUp = true;
-      console.log('face down!');
     }
   }
 }
