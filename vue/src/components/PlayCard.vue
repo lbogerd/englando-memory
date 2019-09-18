@@ -1,8 +1,13 @@
 <template>
   <div 
     class="flip-card"
+    :id="card.id"
+    @click="clickCard"
   >
-    {{ card.nl }}
+    <div class="flip-card-inner">
+      <div class="flip-card-front"></div>
+      <div class="flip-card-back">{{ card.nl }}</div>
+    </div>
   </div>
 </template>
 
