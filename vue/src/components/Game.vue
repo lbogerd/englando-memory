@@ -24,14 +24,14 @@ export default {
         {
           id: 'asdf',
           nl: 'muis',
-          isTextVisible: false
+          isFaceUp: false
         }
       ]
     }
   },
   methods: {
     clickCard(card) {
-      if(card.isTextVisible){
+      if(card.isFaceUp){
         return;
       }
 
