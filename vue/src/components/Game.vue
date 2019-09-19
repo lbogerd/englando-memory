@@ -70,5 +70,8 @@ export default {
 }
 </script>
 <style scoped>
-
+  .play-field{
+    display: flex;
+    flex-wrap: wrap;
+  }
 </style>
