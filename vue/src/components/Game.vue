@@ -5,9 +5,7 @@
       :key="card.id"
       :card="card"
       @click.native="clickCard(card)"
-    >
-
-    </play-card>
+    ></play-card>
   </div>
 </template>
 <script>
