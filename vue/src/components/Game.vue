@@ -47,8 +47,8 @@ export default {
           if (this.cardsCurrentlyFaceUp[0].pairId 
             == this.cardsCurrentlyFaceUp[1].pairId) {
             // Player has won the round.
-            // mutations.awardPairOfCardsToCurrentPlayer(card.pairId);
-            // mutations.removePairOfCards(card.pairId);
+            mutations.awardPairOfCardsToCurrentPlayer(card.pairId);
+            mutations.removePairOfCards(card.pairId);
           } else {
             // Player lost, switch player.
             gameState.isTurnOwnedByFirstPlayer 

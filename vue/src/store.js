@@ -16,14 +16,18 @@ export const pairs = Vue.observable({
 })
 
 export const gameState = Vue.observable({
-  players: {
-    firstPlayer: {
-      name: 'Speler 1'
+  players: [
+    {
+      id: 'firstPlayer',
+      name: 'Speler 1',
+      ownedPairs: []
     },
-    secondPlayer: {
-      name: 'Speler 2'
+    {
+      id: 'secondPlayer',
+      name: 'Speler 2',
+      ownedPairs: []
     }
-  },
+  ],
   isTurnOwnedByFirstPlayer: true,
   turnNumber: 1,
   cards: []
@@ -87,6 +91,26 @@ export const mutations = {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
+  },
+  awardPairOfCardsToCurrentPlayer(pairId) {
+    if (gameState.isTurnOwnedByFirstPlayer) {
+      gameState.players[0].ownedPairs.push(pairId);
+    } else {
+      gameState.players[1].ownedPairs.push(pairId);
+    }
+  },
+  removePairOfCards(pairId) {
+    let cardsBelongingToPair = gameState
+      .cards
+      .filter(c => c.pairId === pairId);
+    
+    // TOLEARN: Make logic below more efficient.
+    cardsBelongingToPair
+      .forEach(p => gameState
+        .cards
+        .splice(gameState
+          .cards
+          .findIndex(c => c.pairId === p.pairId), 
+          1));
   }
-
 }
