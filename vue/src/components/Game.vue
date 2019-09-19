@@ -39,6 +39,8 @@ export default {
         to handle the turn end logic. */ 
         case 1:
           card.isFaceUp = true;
+          // TOLEARN: Why does this.clickCard not work?
+          // eslint-disable-next-line
           clickCard(card);
           break;
 
