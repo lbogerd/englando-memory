@@ -20,8 +20,8 @@ export default {
     }
   },
   computed: {
-    // Do not display text when face down
-    // to prevent 'inspect mode cheating'.
+    /* Do not display text when face down
+    to prevent 'inspect mode cheating'. */
     dynamicText: function () {
       return this.card.isFaceUp
         ? this.card.text

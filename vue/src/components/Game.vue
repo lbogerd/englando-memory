@@ -29,6 +29,8 @@ export default {
   },
   methods: {
     clickCard(card) {
+      /* Flip all cards face down when 
+      the maximum amount of open cards is reached. */
       if(this.cardsCurrentlyFaceUp.length >= 2){
         mutations.allCardsToFaceDown();
         return;

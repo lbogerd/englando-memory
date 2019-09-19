@@ -29,8 +29,8 @@ export const gameState = Vue.observable({
 
 export const mutations = {
   initGame() {
-    // Used to make card ID's unique per game to prevent simple 
-    // 'inspect mode cheating'.
+    /* Used to make card ID's unique per game to prevent simple 
+    'inspect mode cheating'. */
     function generateRandomId() {
       return Math
         .random()
@@ -66,6 +66,8 @@ export const mutations = {
     this.shuffleCards();
   },
   allCardsToFaceDown() {
+    /* TODO: Run quick benchmark to see if filtering
+    the cards first is more or less efficient. */
     gameState
       .cards
       .forEach(c => {
@@ -74,8 +76,8 @@ export const mutations = {
   },
   shuffleCards() {
     let array = gameState.cards;
-    // Durstenfeld shuffle algorithm.
-    // Source: https://stackoverflow.com/a/12646864
+    /* Durstenfeld shuffle algorithm.
+    Source: https://stackoverflow.com/a/12646864 */
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
