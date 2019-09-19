@@ -6,7 +6,7 @@
 ## Following list copied from the Vue project.
 .DS_Store
 node_modules
-/dist
+*/dist
 
 # local env files
 .env.local
