@@ -66,7 +66,7 @@ export const mutations = {
     this.shuffleCards();
   },
   allCardsToFaceDown() {
-    /* TODO: Run quick benchmark to see if filtering
+    /* TOLEARN: Run quick benchmark to see if filtering
     the cards first is more or less efficient. */
     gameState
       .cards
