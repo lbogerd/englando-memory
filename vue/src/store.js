@@ -11,26 +11,26 @@ export const pairs = Vue.observable([
     nl: 'Koe',
     en: 'Cow'
   },
-  // {
-  //   id: 'ufg32',
-  //   nl: 'Kat',
-  //   en: 'Cat'
-  // },
-  // {
-  //   id: 'bm8yh',
-  //   nl: 'Hond',
-  //   en: 'Dog'
-  // },
-  // {
-  //   id: '8hn1d',
-  //   nl: 'Horde',
-  //   en: '🤢'
-  // },
-  // {
-  //   id: '0nh1k',
-  //   nl: 'Alliance',
-  //   en: '🎉'
-  // }
+  {
+    id: 'ufg32',
+    nl: 'Kat',
+    en: 'Cat'
+  },
+  {
+    id: 'bm8yh',
+    nl: 'Hond',
+    en: 'Dog'
+  },
+  {
+    id: '8hn1d',
+    nl: 'Rups',
+    en: 'Caterpillar'
+  },
+  {
+    id: '0nh1k',
+    nl: 'Mier',
+    en: 'Ant'
+  }
 ])
  
 export const gameState = Vue.observable({
@@ -64,7 +64,7 @@ export const mutations = {
 
     // Make sure no cards already exist.
     gameState.cards = [];
-    
+
     // Generate cards from pairs.
     pairs
       .forEach(p => {
