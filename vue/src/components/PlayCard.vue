@@ -6,7 +6,7 @@
   >
     <div class="flip-card-inner">
       <div class="flip-card-front"></div>
-      <div class="flip-card-back">{{ card.text }}</div>
+      <div class="flip-card-back">{{ dynamicText }}</div>
     </div>
   </div>
 </template>
@@ -18,6 +18,15 @@ export default {
       type: Object,
       required: true
     }
-  }  
+  },
+  computed: {
+    // Do not display text when face down
+    // to prevent 'inspect mode cheating'.
+    dynamicText: function () {
+      return this.card.isFaceUp
+        ? this.card.text
+        : ''
+    }
+  }
 }
 </script>
