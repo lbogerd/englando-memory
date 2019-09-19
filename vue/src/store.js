@@ -1,20 +1,38 @@
 import Vue from "vue";
 
-export const pairs = Vue.observable({
-  animals: [
-    {
-      id: 'asdf',
-      nl: 'aap',
-      en: 'monkey'
-    },
-    {
-      id: 'fdas',
-      nl: 'koe',
-      en: 'cow'
-    }
-  ],
-})
-
+export const pairs = Vue.observable([
+  {
+    id: 'zysh2',
+    nl: 'Aap',
+    en: 'Monkey'
+  },
+  {
+    id: '12jah',
+    nl: 'Koe',
+    en: 'Cow'
+  },
+  // {
+  //   id: 'ufg32',
+  //   nl: 'Kat',
+  //   en: 'Cat'
+  // },
+  // {
+  //   id: 'bm8yh',
+  //   nl: 'Hond',
+  //   en: 'Dog'
+  // },
+  // {
+  //   id: '8hn1d',
+  //   nl: 'Horde',
+  //   en: '🤢'
+  // },
+  // {
+  //   id: '0nh1k',
+  //   nl: 'Alliance',
+  //   en: '🎉'
+  // }
+])
+ 
 export const gameState = Vue.observable({
   players: [
     {
@@ -44,9 +62,11 @@ export const mutations = {
         .substr(2, 5);
     }
 
+    // Make sure no cards already exist.
+    gameState.cards = [];
+    
     // Generate cards from pairs.
     pairs
-      .animals
       .forEach(p => {
         // TODO: Deduplicate code below.
         gameState
@@ -55,7 +75,8 @@ export const mutations = {
             id: generateRandomId(),
             pairId: p.id,
             text: p.nl,
-            isFaceUp: false
+            isFaceUp: false,
+            isVisible: true
           });
         
         gameState
@@ -64,7 +85,8 @@ export const mutations = {
             id: generateRandomId(),
             pairId: p.id,
             text: p.en,
-            isFaceUp: false
+            isFaceUp: false,
+            isVisible: true
           })
       });
     
@@ -100,17 +122,9 @@ export const mutations = {
     }
   },
   removePairOfCards(pairId) {
-    let cardsBelongingToPair = gameState
+    gameState
       .cards
-      .filter(c => c.pairId === pairId);
-    
-    // TOLEARN: Make logic below more efficient.
-    cardsBelongingToPair
-      .forEach(p => gameState
-        .cards
-        .splice(gameState
-          .cards
-          .findIndex(c => c.pairId === p.pairId), 
-          1));
+      .filter(c => c.pairId === pairId)
+      .forEach(c => c.isVisible = false);
   }
 }
