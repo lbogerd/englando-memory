@@ -18,12 +18,14 @@ export const pairs = Vue.observable({
 export const gameState = Vue.observable({
   players: {
     firstPlayer: {
-      name: 'Speler 1',
+      name: 'Speler 1'
     },
     secondPlayer: {
       name: 'Speler 2'
     }
   },
+  isTurnOwnedByFirstPlayer: true,
+  turnNumber: 1,
   cards: []
 });
 
@@ -64,6 +66,9 @@ export const mutations = {
     
     // Shuffle them.
     this.shuffleCards();
+
+    // Randomise starting player.
+    gameState.isTurnOwnedByFirstPlayer = ( Math.random() >= 0.5 )
   },
   allCardsToFaceDown() {
     /* TOLEARN: Run quick benchmark to see if filtering

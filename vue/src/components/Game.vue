@@ -29,14 +29,40 @@ export default {
   },
   methods: {
     clickCard(card) {
-      /* Flip all cards face down when 
-      the maximum amount of open cards is reached. */
-      if(this.cardsCurrentlyFaceUp.length >= 2){
-        mutations.allCardsToFaceDown();
-        return;
-      }
+      switch (this.cardsCurrentlyFaceUp.length) {
+        // Fresh game, always turn the card.
+        case 0:
+          card.isFaceUp = true;
+          break;
 
-      card.isFaceUp = true;
+        /* Switch cardsCheck for pairs, process it another time to
+        to handle the turn end logic. */ 
+        case 1:
+          card.isFaceUp = true;
+          clickCard(card);
+          break;
+
+        // Two cards are played; time for the the next turn. 
+        case 2:
+          if (this.cardsCurrentlyFaceUp[0].pairId 
+            == this.cardsCurrentlyFaceUp[1].pairId) {
+            // Player has won the round.
+            // mutations.awardPairOfCardsToCurrentPlayer(card.pairId);
+            // mutations.removePairOfCards(card.pairId);
+          } else {
+            // Player lost, switch player.
+            gameState.isTurnOwnedByFirstPlayer 
+              = !gameState.isTurnOwnedByFirstPlayer;
+          }
+          gameState.turnNumber++;
+          mutations.allCardsToFaceDown();
+          break;
+
+        // Fallback, should never be called(?)
+        default:
+          mutations.allCardsToFaceDown();
+          break;
+      }
     }
   }
 }
