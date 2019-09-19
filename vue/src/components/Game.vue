@@ -51,6 +51,10 @@ export default {
             // Player has won the round.
             mutations.awardPairOfCardsToCurrentPlayer(card.pairId);
             mutations.removePairOfCards(card.pairId);
+            // Re-init game if no more cards are left.
+            if (this.cards.length === 0) {
+              mutations.initGame();
+            }
           } else {
             // Player lost, switch player.
             gameState.isTurnOwnedByFirstPlayer 
