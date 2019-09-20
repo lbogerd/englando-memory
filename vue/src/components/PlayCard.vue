@@ -2,7 +2,10 @@
   <div 
     class="flip-card"
     :id="card.id"
-    :class="{'flip-card-go': card.isFaceUp}"
+    :class="{
+      'flip-card-go': card.isFaceUp,
+      'flip-card-hide': !card.isVisible
+    }"
   >
     <div class="flip-card-inner">
       <div class="flip-card-front"></div>
@@ -30,3 +33,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .flip-card-hide {
+    visibility: hidden;
+  }
+</style>

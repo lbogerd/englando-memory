@@ -30,27 +30,22 @@ export default {
   methods: {
     clickCard(card) {
       switch (this.cardsCurrentlyFaceUp.length) {
-        // Fresh game, always turn the card.
         case 0:
-          card.isFaceUp = true;
-          break;
-
-        /* Switch cardsCheck for pairs, process it another time to
-        to handle the turn end logic. */ 
         case 1:
           card.isFaceUp = true;
-          // TOLEARN: Why does this.clickCard not work?
-          // eslint-disable-next-line
-          clickCard(card);
           break;
 
-        // Two cards are played; time for the the next turn. 
+        // Two cards have been played; time for the the next turn. 
         case 2:
           if (this.cardsCurrentlyFaceUp[0].pairId 
             == this.cardsCurrentlyFaceUp[1].pairId) {
             // Player has won the round.
             mutations.awardPairOfCardsToCurrentPlayer(card.pairId);
             mutations.removePairOfCards(card.pairId);
+            // Re-init game if no more cards are left.
+            if (this.cards.filter(c => c.isVisible === true).length === 0) {
+              mutations.initGame();
+            }
           } else {
             // Player lost, switch player.
             gameState.isTurnOwnedByFirstPlayer 
